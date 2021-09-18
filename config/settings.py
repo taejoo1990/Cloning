@@ -45,7 +45,9 @@ PROJECT_APPS = [
     "users.apps.UsersConfig",
     "rooms.apps.RoomsConfig",
     "core.apps.CoreConfig",
+    "reviews.apps.ReviewsConfig",
 ]
+
 """
 Basically DJango provide Installd_APPS def. However I want seperate DJango's apps provided basicaaly
 and Project apps created by me. so, I created 2def (DJANGO_APPS, PROJECT_APPS). INSTALLED_APPS DEF 
