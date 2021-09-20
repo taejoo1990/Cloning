@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.options import HORIZONTAL
 from . import models
 
 
@@ -19,6 +20,32 @@ class RoomAdmin(admin.ModelAdmin):
 
     """Room Admin Definition"""
 
+    fieldsets = (
+        (
+            "Basic Info",
+            {"fields": ("name", "description", "country", "address", "price")},
+        ),
+        (
+            "Times",
+            {"fields": ("check_in", "check_out", "instant_book")},
+        ),
+        (
+            "Space",
+            {"fields": ("beds", "bedrooms", "baths", "guest")},
+        ),
+        (
+            "More About the Space",
+            {
+                "classes": ("collapse",),
+                "fields": ("amenities", "facilities", "houserules"),
+            },
+        ),
+        (
+            "Last Details",
+            {"fields": ("host",)},
+        ),
+    )
+
     list_display = (
         "name",
         "country",
@@ -34,7 +61,17 @@ class RoomAdmin(admin.ModelAdmin):
         "instant_book",
     )
 
-    list_filter = ("instant_book", "country", "city")
+    list_filter = (
+        "instant_book",
+        "host__super_host",
+        "room_type",
+        "room_type",
+        "amenities",
+        "facilities",
+        "houserules",
+        "city",
+        "country",
+    )
 
     """ 
         ^ -> startswith
@@ -43,6 +80,12 @@ class RoomAdmin(admin.ModelAdmin):
         None -> icontains
     """
     search_fields = ("^city", "^host__username")
+
+    filter_horizontal = (
+        "amenities",
+        "facilities",
+        "houserules",
+    )
 
 
 @admin.register(models.Photo)
