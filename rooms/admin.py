@@ -16,9 +16,33 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
+
     """Room Admin Definition"""
 
-    pass
+    list_display = (
+        "name",
+        "country",
+        "city",
+        "price",
+        "beds",
+        "beds",
+        "bedrooms",
+        "baths",
+        "guest",
+        "check_in",
+        "check_out",
+        "instant_book",
+    )
+
+    list_filter = ("instant_book", "country", "city")
+
+    """ 
+        ^ -> startswith
+        = -> iexact
+        @ -> search
+        None -> icontains
+    """
+    search_fields = ("^city", "^host__username")
 
 
 @admin.register(models.Photo)
