@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin.options import HORIZONTAL
+from django.db.models.aggregates import Count
 from . import models
 
 
@@ -59,6 +60,7 @@ class RoomAdmin(admin.ModelAdmin):
         "check_in",
         "check_out",
         "instant_book",
+        "count_amenities",
     )
 
     list_filter = (
@@ -86,6 +88,11 @@ class RoomAdmin(admin.ModelAdmin):
         "facilities",
         "houserules",
     )
+
+    def count_amenities(self, obj):
+        return obj.amenities.count()
+
+    count_amenities.short_description = "hello sexy!"
 
 
 @admin.register(models.Photo)

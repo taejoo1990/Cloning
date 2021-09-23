@@ -64,7 +64,9 @@ class Room(core_models.TimeStampedModel):
     # ------------------Model---------------------
     name = models.CharField(max_length=140)
     # ForeignKey is relation many to one :) models has just one User
-    host = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    host = models.ForeignKey(
+        "users.User", related_name="rooms", on_delete=models.CASCADE
+    )
     description = models.TextField()
     country = CountryField()
     city = models.CharField(max_length=80)
@@ -78,11 +80,11 @@ class Room(core_models.TimeStampedModel):
     check_out = models.TimeField()
     instant_book = models.BooleanField(default=False)
     room_type = models.ForeignKey(
-        RoomType, on_delete=models.SET_NULL, null=True, blank=True
+        RoomType, on_delete=models.SET_NULL, related_name="rooms", null=True, blank=True
     )
-    amenities = models.ManyToManyField("Amenity", blank=True)
-    facilities = models.ManyToManyField("Facility", blank=True)
-    houserules = models.ManyToManyField("HouseRule", blank=True)
+    amenities = models.ManyToManyField("Amenity", related_name="rooms", blank=True)
+    facilities = models.ManyToManyField("Facility", related_name="rooms", blank=True)
+    houserules = models.ManyToManyField("HouseRule", related_name="rooms", blank=True)
 
     def __str__(self):
         return self.name
