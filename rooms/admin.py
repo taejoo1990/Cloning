@@ -22,7 +22,11 @@ class ItemAdmin(admin.ModelAdmin):
     def used_by(self, obj):
         return obj.rooms.count()
 
-    pass
+
+# admin.StackedInline , choose it:)
+class PhotoInline(admin.TabularInline):
+
+    model = models.Photo
 
 
 @admin.register(models.Room)
@@ -30,10 +34,11 @@ class RoomAdmin(admin.ModelAdmin):
 
     """Room Admin Definition"""
 
+    inlines = (PhotoInline,)
     fieldsets = (
         (
             "Basic Info",
-            {"fields": ("name", "description", "country", "address", "price")},
+            {"fields": ("name", "description", "country", "address", "city", "price")},
         ),
         (
             "Times",
@@ -86,6 +91,8 @@ class RoomAdmin(admin.ModelAdmin):
         "country",
     )
 
+    raw_id_fields = ("host",)
+
     """ 
         ^ -> startswith
         = -> iexact
@@ -99,7 +106,11 @@ class RoomAdmin(admin.ModelAdmin):
         "facilities",
         "houserules",
     )
-
+    """
+    def save_model(self, request, obj, form, change):
+        print(obj, change, form)
+        super().save_model(request, obj, form, change)
+    """
     def count_amenities(self, obj):
         return obj.amenities.count()
 
