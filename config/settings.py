@@ -140,3 +140,9 @@ STATIC_URL = "/static/"
 
 # This DEF provide function that we can create customizing models and use it.
 AUTH_USER_MODEL = "users.User"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+
+
+# MEDIA_URL = "media/" relative path
+MEDIA_URL = "/media/"  # absolute path :)

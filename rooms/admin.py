@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 from django.contrib.admin.options import HORIZONTAL
 from django.db.models.aggregates import Count
 from . import models
@@ -110,6 +111,12 @@ class RoomAdmin(admin.ModelAdmin):
 
 @admin.register(models.Photo)
 class PhotoAdmin(admin.ModelAdmin):
+
     """Photo Admin Definition"""
 
-    pass
+    list_display = ("__str__", "get_thumbnail")
+
+    def get_thumbnail(self, obj):
+        return mark_safe(f'<img width="50px" src="{obj.file.url}"/>')
+
+    get_thumbnail.short_discription = "Thumbnail"
